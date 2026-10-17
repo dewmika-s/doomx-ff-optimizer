@@ -1,4 +1,4 @@
-name: Android Build
+name: Build DOOMX APK
 
 on:
   push:
@@ -18,13 +18,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Configure Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
-
-      - name: Build APK
+      - name: Build Debug APK
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
